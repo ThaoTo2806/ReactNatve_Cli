@@ -1,7 +1,8 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IntroLayout from './View/Intro/IntroLayout'; // Đảm bảo IntroLayout tồn tại
+import IntroLayout from './View/Intro/IntroLayout';
+import Login from './View/Intro/Login';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -24,6 +25,11 @@ function App() {
         <Stack.Screen
           name="IntroLayout"
           component={IntroLayout}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

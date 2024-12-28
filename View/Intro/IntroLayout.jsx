@@ -9,8 +9,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 export default function IntroLayout() {
+  const navigation = useNavigation(); // Khởi tạo navigation
+
+  const handleLoginPress = () => {
+    navigation.navigate('Login'); // Điều hướng đến màn hình Login
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -43,7 +50,7 @@ export default function IntroLayout() {
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLoginPress}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
       </View>
@@ -64,11 +71,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 620,
+    height: 600,
     resizeMode: 'cover',
+    marginTop: -35,
   },
   iconTextWrapper: {
-    flexDirection: 'row', // Đặt icon và văn bản nằm trên cùng 1 dòng
+    flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
@@ -104,7 +112,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     borderRadius: 10,
     borderColor: '#00cccc',
+    borderWidth: 1,
     width: '100%',
+    height: 55,
   },
   loginText: {
     color: '#00cccc',
