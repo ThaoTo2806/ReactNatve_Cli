@@ -3,6 +3,8 @@ import {SafeAreaView, StyleSheet, Text, View, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IntroLayout from './View/Intro/IntroLayout';
 import Login from './View/Intro/Login';
+import Register from './View/Intro/Register';
+import TabLayout from './View/Index/TabLayout';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -32,6 +34,16 @@ function App() {
           component={Login}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TabLayout"
+          component={TabLayout}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -43,7 +55,7 @@ function HomeScreen({navigation}: any) {
     <SafeAreaView style={styles.container}>
       <StatusBar
         translucent={false}
-        backgroundColor="#00cccc"
+        backgroundColor="#009999"
         barStyle="light-content"
       />
       <View style={styles.content}>
@@ -61,7 +73,7 @@ function HomeScreen({navigation}: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00cccc',
+    backgroundColor: '#009999',
   },
   content: {
     flex: 1,

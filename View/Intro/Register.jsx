@@ -10,9 +10,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Login({navigation}) {
+export default function Register({navigation}) {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [conpass, setConpass] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -27,12 +30,25 @@ export default function Login({navigation}) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={20} color="#334d4d" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Log in</Text>
+        <Text style={styles.headerText}>Sign up</Text>
       </View>
 
       {/* Form Section - Centered */}
       <View style={styles.formContainer}>
         <View style={styles.form}>
+          {/* Name input */}
+          <Text style={styles.label}>
+            Username<Text style={styles.label1}> *</Text>
+          </Text>
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter your username"
+              value={username}
+              onChangeText={setUsername}
+            />
+          </View>
+
           {/* Email input */}
           <Text style={styles.label}>
             Email address or Phone number<Text style={styles.label1}> *</Text>
@@ -53,7 +69,7 @@ export default function Login({navigation}) {
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.textInput}
-              placeholder="Enter your password"
+              placeholder="Create your password"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
@@ -61,23 +77,42 @@ export default function Login({navigation}) {
             <Icon name="eye" size={20} color="#aaa" style={styles.eyeIcon} />
           </View>
 
-          {/* Forgot Password */}
-          <TouchableOpacity style={{alignSelf: 'flex-end'}}>
-            <Text style={styles.forgotPassword}>Forgot password?</Text>
-          </TouchableOpacity>
+          {/* Confirm password input */}
+          <Text style={styles.label}>
+            Confirm Password<Text style={styles.label1}> *</Text>
+          </Text>
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter your password"
+              value={conpass}
+              onChangeText={setConpass}
+              secureTextEntry
+            />
+            <Icon name="eye" size={20} color="#aaa" style={styles.eyeIcon} />
+          </View>
+
+          {/* Agree with Term */}
+          <View style={styles.termV}>
+            <TouchableOpacity
+              style={[
+                styles.checkbox,
+                {backgroundColor: isChecked ? '#009999' : '#fff'},
+              ]}
+              onPress={() => setIsChecked(!isChecked)}>
+              {isChecked && <Icon name="check" size={15} color="#fff" />}
+            </TouchableOpacity>
+            <Text style={styles.term}>Agree with Term & condition</Text>
+          </View>
 
           {/* Login Button */}
           <TouchableOpacity style={styles.loginButton}>
-            <Text
-              style={styles.loginButtonText}
-              onPress={() => navigation.navigate('TabLayout')}>
-              Log In
-            </Text>
+            <Text style={styles.loginButtonText}>Sign up</Text>
           </TouchableOpacity>
 
           {/* Or log in with */}
           <View style={styles.socialLoginContainer}>
-            <Text>or log in with</Text>
+            <Text>or sign up with</Text>
             <View style={styles.socialIcons}>
               <View style={styles.fbIcon}>
                 <Icon name="facebook" size={30} color="blue" />
@@ -94,11 +129,11 @@ export default function Login({navigation}) {
           {/* Sign up Section */}
           <TouchableOpacity>
             <Text style={styles.signUpText}>
-              Don't have an account?{' '}
+              Already have an account?{' '}
               <Text
                 style={styles.signUpTextBold}
-                onPress={() => navigation.navigate('Register')}>
-                Sign up
+                onPress={() => navigation.navigate('Login')}>
+                Log in
               </Text>
             </Text>
           </TouchableOpacity>
@@ -107,7 +142,6 @@ export default function Login({navigation}) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -122,11 +156,10 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 28,
-    marginLeft: 130,
+    marginLeft: 120,
     color: '#334d4d',
   },
   formContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
@@ -163,9 +196,9 @@ const styles = StyleSheet.create({
     right: 10,
     top: 10,
   },
-  forgotPassword: {
+  term: {
     color: '#ff7f00',
-    textAlign: 'right',
+    textAlign: 'left',
     marginBottom: 20,
     textDecorationLine: 'underline',
     width: '100%',
@@ -207,5 +240,19 @@ const styles = StyleSheet.create({
   },
   signUpTextBold: {
     color: '#ff7f00',
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  termV: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    marginBottom: 20,
   },
 });

@@ -18,6 +18,10 @@ export default function IntroLayout() {
     navigation.navigate('Login'); // Điều hướng đến màn hình Login
   };
 
+  const handleRegisterPress = () => {
+    navigation.navigate('Register');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -34,7 +38,7 @@ export default function IntroLayout() {
 
         {/* Icon và văn bản trên cùng một dòng */}
         <View style={styles.iconTextWrapper}>
-          <Icon name="leaf" size={70} color="#00cccc" />
+          <Icon name="leaf" size={70} color="#009999" />
           <Text style={styles.text}>Little Wardrobe</Text>
         </View>
 
@@ -47,7 +51,9 @@ export default function IntroLayout() {
 
         {/* Các nút Sign up và Login */}
         <TouchableOpacity style={styles.signUpButton}>
-          <Text style={styles.signUpText}>Sign Up</Text>
+          <Text style={styles.signUpText} onPress={handleRegisterPress}>
+            Sign Up
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.loginButton} onPress={handleLoginPress}>
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 40,
-    color: '#00cccc',
+    color: '#009999',
     fontFamily: 'Alexandria Whitehouse',
     marginLeft: 10,
   },
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   signUpButton: {
-    backgroundColor: '#00cccc',
+    backgroundColor: '#009999',
     paddingVertical: 15,
     paddingHorizontal: 50,
     borderRadius: 10,
@@ -111,13 +117,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 50,
     borderRadius: 10,
-    borderColor: '#00cccc',
+    borderColor: '#009999',
     borderWidth: 1,
     width: '100%',
     height: 55,
   },
   loginText: {
-    color: '#00cccc',
+    color: '#009999',
     fontSize: 18,
     textAlign: 'center',
   },
