@@ -11,6 +11,8 @@ import {
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Cate from './component/Cate';
+import Recommend from './component/Recommend';
 
 const {width} = Dimensions.get('window'); // Lấy chiều rộng màn hình
 
@@ -89,6 +91,12 @@ export default function IndexScreen() {
           ))}
         </ScrollView>
       </View>
+
+      {/* Category */}
+      <Cate />
+
+      {/* Recommend */}
+      <Recommend />
     </SafeAreaView>
   );
 }
@@ -145,9 +153,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sliderContainer: {
-    marginTop: 10,
+    marginTop: 15,
     height: 200,
     marginHorizontal: 10,
+    alignItems: 'center',
   },
   image: {
     width: 385,
