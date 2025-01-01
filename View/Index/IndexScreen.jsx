@@ -62,41 +62,47 @@ export default function IndexScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <ScrollView>
+        {/* Search */}
+        <View style={styles.search}>
+          <Icon name="search" size={20} color="#666" style={styles.icon} />
 
-      {/* Search */}
-      <View style={styles.search}>
-        <Icon name="search" size={20} color="#666" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Search"
+            placeholderTextColor="#999"
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Search"
-          placeholderTextColor="#999"
-        />
-
-        <View style={styles.rightIcons}>
-          <Icon name="microphone" size={20} color="#666" style={styles.icon} />
-          <Icon name="sliders" size={20} color="#666" style={styles.icon} />
+          <View style={styles.rightIcons}>
+            <Icon
+              name="microphone"
+              size={20}
+              color="#666"
+              style={styles.icon}
+            />
+            <Icon name="sliders" size={20} color="#666" style={styles.icon} />
+          </View>
         </View>
-      </View>
 
-      {/* Slider */}
-      <View style={styles.sliderContainer}>
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}>
-          {images.map((image, index) => (
-            <Image key={index} source={{uri: image}} style={styles.image} />
-          ))}
-        </ScrollView>
-      </View>
+        {/* Slider */}
+        <View style={styles.sliderContainer}>
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}>
+            {images.map((image, index) => (
+              <Image key={index} source={{uri: image}} style={styles.image} />
+            ))}
+          </ScrollView>
+        </View>
 
-      {/* Category */}
-      <Cate />
+        {/* Category */}
+        <Cate />
 
-      {/* Recommend */}
-      <Recommend />
+        {/* Recommend */}
+        <Recommend />
+      </ScrollView>
     </SafeAreaView>
   );
 }

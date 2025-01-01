@@ -76,11 +76,11 @@ export default function Cate() {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: 'https://e7.pngegg.com/pngimages/293/727/png-clipart-umbrella-parasol-umbrella-orange.png',
+              uri: 'https://w7.pngwing.com/pngs/627/292/png-transparent-tote-bag-handbag-leather-wallet-bag-zipper-brown-luggage-bags.png',
             }}
             style={styles.image1}
           />
-          <Text style={styles.imageLabel}>Umbrella</Text>
+          <Text style={styles.imageLabel}>Handbags</Text>
         </View>
       </View>
     </View>
