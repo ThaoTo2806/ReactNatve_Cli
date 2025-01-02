@@ -16,7 +16,7 @@ import Recommend from './component/Recommend';
 
 const {width} = Dimensions.get('window'); // Lấy chiều rộng màn hình
 
-export default function IndexScreen() {
+export default function IndexScreen({navigation}) {
   const images = [
     'https://media.vneconomy.vn/w800/images/upload/2021/08/09/eco-fashion2.jpg',
     'https://www.sunmeibutton.com/wp-content/uploads/2018/06/2018-color-trend-green-1.jpg',
@@ -80,7 +80,9 @@ export default function IndexScreen() {
               color="#666"
               style={styles.icon}
             />
-            <Icon name="sliders" size={20} color="#666" style={styles.icon} />
+            <TouchableOpacity onPress={() => navigation.navigate('Fillter')}>
+              <Icon name="sliders" size={20} color="#666" style={styles.icon} />
+            </TouchableOpacity>
           </View>
         </View>
 

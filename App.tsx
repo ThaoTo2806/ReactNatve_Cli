@@ -5,6 +5,7 @@ import IntroLayout from './View/Intro/IntroLayout';
 import Login from './View/Intro/Login';
 import Register from './View/Intro/Register';
 import TabLayout from './View/Index/TabLayout';
+import Fillter from './View/Index/component/Fillter';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -42,6 +43,11 @@ function App() {
         <Stack.Screen
           name="TabLayout"
           component={TabLayout}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Fillter"
+          component={Fillter}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -38,9 +38,9 @@ export default function TabLayout() {
         name="Chat"
         component={ChatScreen}
         options={{
-          tabBarLabel: 'Chat',
+          tabBarLabel: 'Post Items',
           tabBarIcon: ({color}) => (
-            <Icon name="comments" size={24} color={color} />
+            <Icon name="inbox" size={24} color={color} />
           ),
         }}
       />
