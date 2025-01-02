@@ -5,18 +5,40 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  StatusBar,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Cate from './Cate';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import Slider from '@react-native-community/slider';
 
 export default function Fillter({navigation}) {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedStyle, setSelectedStyle] = useState(null);
-  const [priceRange, setPriceRange] = useState([0, 3000000]); // Giá trị cho hai đầu của slider
+  const [priceRange, setPriceRange] = useState([0, 3000000]);
+  const [distance, setDistance] = useState(0);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const options = [
+    {label: 'Lowest price', icon: 'tag'},
+    {label: 'Highest price', icon: 'arrow-up'},
+    {label: 'Nearest product to you', icon: 'map-marker'},
+    {label: 'Most recent post', icon: 'clock-o'},
+  ];
+
   return (
     <SafeAreaView style={styles.safeArea}>
+      {/* Thay đổi StatusBar */}
+      <StatusBar
+        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
+        backgroundColor={isModalVisible ? 'rgba(0,0,0,0.5)' : '#ffffff'}
+      />
       <View style={styles.header}>
         {/* Icon bên trái */}
         <TouchableOpacity
@@ -29,9 +51,38 @@ export default function Fillter({navigation}) {
         <Text style={styles.headerText}>Filter your search</Text>
 
         {/* Icon bên phải */}
-        <TouchableOpacity style={styles.iconRight}>
+        <TouchableOpacity style={styles.iconRight} onPress={toggleModal}>
           <Icon name="sliders" size={20} color="#334d4d" />
         </TouchableOpacity>
+
+        {/* Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={toggleModal}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              {/* Danh sách mục với biểu tượng */}
+              {options.map((option, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.modalOption}
+                  onPress={() => {
+                    toggleModal();
+                  }}>
+                  <Icon
+                    name={option.icon}
+                    size={20}
+                    color="#009999"
+                    style={styles.optionIcon}
+                  />
+                  <Text style={styles.modalOptionText}>{option.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </Modal>
       </View>
       {/* Category */}
       <Cate />
@@ -96,7 +147,7 @@ export default function Fillter({navigation}) {
             {priceRange[0]} - {priceRange[1]} VND
           </Text>
         </Text>
-        <View>
+        <View style={{marginHorizontal: 10}}>
           <MultiSlider
             min={0}
             max={3000000}
@@ -116,6 +167,31 @@ export default function Fillter({navigation}) {
           />
         </View>
       </View>
+      {/* Distance */}
+      <View style={styles.genderView}>
+        <Text style={styles.genderHeader}>
+          Distance:{' '}
+          <Text style={styles.priceText}>
+            Less than {distance.toFixed(0)}km
+          </Text>
+        </Text>
+        <View>
+          <Slider
+            style={styles.slider}
+            minimumValue={0}
+            maximumValue={3000000}
+            step={10000}
+            value={distance}
+            onValueChange={value => setDistance(value)} // Hiển thị ngay khi kéo
+            minimumTrackTintColor="#009999"
+            maximumTrackTintColor="#000000"
+            thumbTintColor="#009999"
+          />
+        </View>
+      </View>
+      <TouchableOpacity style={styles.searchButton}>
+        <Text style={styles.searchButtonText}>Apply</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -131,6 +207,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Canh giữa theo chiều dọc
     justifyContent: 'space-between', // Đẩy các phần tử sang trái, giữa, và phải
     paddingHorizontal: 20, // Khoảng cách từ các cạnh màn hình
+    marginTop: 20,
   },
   headerText: {
     fontSize: 28,
@@ -187,5 +264,49 @@ const styles = StyleSheet.create({
     color: '#009999',
     fontWeight: 'condensed',
     textDecorationLine: 'underline',
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  searchButton: {
+    backgroundColor: '#009999',
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: '95%',
+    alignSelf: 'center',
+    marginTop: 130,
+  },
+  searchButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)', // Mờ nền bên dưới
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    backgroundColor: '#ffffff',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalOption: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    alignItems: 'center',
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: '#334d4d',
+  },
+  optionIcon: {
+    marginRight: 10,
   },
 });

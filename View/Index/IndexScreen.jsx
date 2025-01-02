@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Cate from './component/Cate';
@@ -17,6 +18,10 @@ import Recommend from './component/Recommend';
 const {width} = Dimensions.get('window'); // Lấy chiều rộng màn hình
 
 export default function IndexScreen({navigation}) {
+  useLayoutEffect(() => {
+    StatusBar.setBarStyle('dark-content');
+    StatusBar.setBackgroundColor('#ffffff');
+  }, []);
   const images = [
     'https://media.vneconomy.vn/w800/images/upload/2021/08/09/eco-fashion2.jpg',
     'https://www.sunmeibutton.com/wp-content/uploads/2018/06/2018-color-trend-green-1.jpg',
