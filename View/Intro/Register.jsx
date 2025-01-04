@@ -8,7 +8,7 @@ import {
   StatusBar,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Register({navigation}) {
   const [username, setUsername] = useState('');
@@ -28,7 +28,7 @@ export default function Register({navigation}) {
       {/* Header with Login text */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={20} color="#334d4d" />
+          <Icon name="chevron-back-outline" size={20} color="#334d4d" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Sign up</Text>
       </View>
@@ -115,7 +115,7 @@ export default function Register({navigation}) {
             <Text>or sign up with</Text>
             <View style={styles.socialIcons}>
               <View style={styles.fbIcon}>
-                <Icon name="facebook" size={30} color="blue" />
+                <Icon name="logo-facebook" size={30} color="blue" />
               </View>
               <Image
                 source={{
@@ -229,10 +229,10 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   socialIcon: {
-    width: 60,
-    height: 60,
+    width: 58,
+    height: 58,
     resizeMode: 'contain',
-    marginTop: -17,
+    marginTop: -15,
   },
   signUpText: {
     textAlign: 'center',

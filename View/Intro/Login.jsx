@@ -8,7 +8,7 @@ import {
   StatusBar,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Login({navigation}) {
   const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ export default function Login({navigation}) {
       {/* Header with Login text */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={20} color="#334d4d" />
+          <Icon name="chevron-back-outline" size={20} color="#334d4d" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Log in</Text>
       </View>
@@ -80,7 +80,7 @@ export default function Login({navigation}) {
             <Text>or log in with</Text>
             <View style={styles.socialIcons}>
               <View style={styles.fbIcon}>
-                <Icon name="facebook" size={30} color="blue" />
+                <Icon name="logo-facebook" size={30} color="blue" />
               </View>
               <Image
                 source={{

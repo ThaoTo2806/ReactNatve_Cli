@@ -18,10 +18,6 @@ import Recommend from './component/Recommend';
 const {width} = Dimensions.get('window'); // Lấy chiều rộng màn hình
 
 export default function IndexScreen({navigation}) {
-  useLayoutEffect(() => {
-    StatusBar.setBarStyle('dark-content');
-    StatusBar.setBackgroundColor('#ffffff');
-  }, []);
   const images = [
     'https://media.vneconomy.vn/w800/images/upload/2021/08/09/eco-fashion2.jpg',
     'https://www.sunmeibutton.com/wp-content/uploads/2018/06/2018-color-trend-green-1.jpg',
@@ -62,7 +58,9 @@ export default function IndexScreen({navigation}) {
             <Icon name="bell" size={23} color="#666" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.iconWrapper}>
+          <TouchableOpacity
+            style={styles.iconWrapper}
+            onPress={() => navigation.navigate('Message')}>
             <Icon name="comments" size={23} color="#666" />
           </TouchableOpacity>
         </View>
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginTop: 25,
+    paddingTop: 20,
   },
   header: {
     flexDirection: 'row',
