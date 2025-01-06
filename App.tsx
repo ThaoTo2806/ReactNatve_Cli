@@ -7,6 +7,7 @@ import Register from './View/Intro/Register';
 import TabLayout from './View/Index/TabLayout';
 import Fillter from './View/Index/component/Fillter';
 import Message from './View/Index/component/Message';
+import ProductDetail from './View/Index/component/ProductDetail';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -54,6 +55,11 @@ function App() {
         <Stack.Screen
           name="Message"
           component={Message}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -1,7 +1,14 @@
-import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
-export default function Recommend() {
+export default function Recommend({navigation}) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -21,7 +28,11 @@ export default function Recommend() {
     for (let i = 0; i < products.length; i += 2) {
       rows.push(
         <View style={styles.row} key={i}>
-          <View style={styles.productContainer}>
+          <TouchableOpacity
+            style={styles.productContainer}
+            onPress={() =>
+              navigation.navigate('ProductDetail', {MaSP: products[i]?.MaSP})
+            }>
             <Image
               source={{uri: products[i]?.Anh}}
               style={styles.productImage}
@@ -33,9 +44,15 @@ export default function Recommend() {
             <Text style={styles.productPrice}>
               Price: {products[i]?.GiaBan.toLocaleString()} VND
             </Text>
-          </View>
+          </TouchableOpacity>
           {products[i + 1] && (
-            <View style={styles.productContainer}>
+            <TouchableOpacity
+              style={styles.productContainer}
+              onPress={() =>
+                navigation.navigate('ProductDetail', {
+                  MaSP: products[i + 1]?.MaSP,
+                })
+              }>
               <Image
                 source={{uri: products[i + 1]?.Anh}}
                 style={styles.productImage}
@@ -48,7 +65,7 @@ export default function Recommend() {
               <Text style={styles.productPrice}>
                 Price: {products[i + 1]?.GiaBan.toLocaleString()} VND
               </Text>
-            </View>
+            </TouchableOpacity>
           )}
         </View>,
       );

@@ -9,7 +9,6 @@ import {
   Image,
   ScrollView,
   Dimensions,
-  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Cate from './component/Cate';
@@ -106,7 +105,7 @@ export default function IndexScreen({navigation}) {
         <Cate />
 
         {/* Recommend */}
-        <Recommend />
+        <Recommend navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   );

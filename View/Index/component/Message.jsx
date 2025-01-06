@@ -16,15 +16,15 @@ export default function Message({navigation}) {
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-back-outline" size={20} color="#334d4d" />
+          <Icon name="chevron-back-outline" size={30} color="#334d4d" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Messages</Text>
         <View style={styles.iconGroup}>
           <TouchableOpacity>
-            <Icon name="search-outline" size={20} color="#334d4d" />
+            <Icon name="search-outline" size={30} color="#334d4d" />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Icon name="create-outline" size={20} color="#334d4d" />
+            <Icon name="create-outline" size={30} color="#334d4d" />
           </TouchableOpacity>
         </View>
       </View>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     paddingTop: 25,
   },
   headerText: {
-    fontSize: 25,
+    fontSize: 30,
     color: '#334d4d',
     marginLeft: 20,
   },
