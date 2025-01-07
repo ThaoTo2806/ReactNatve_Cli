@@ -64,7 +64,9 @@ export default function IndexScreen({navigation}) {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
         {/* Search */}
         <View style={styles.search}>
           <Icon name="search" size={20} color="#666" style={styles.icon} />
