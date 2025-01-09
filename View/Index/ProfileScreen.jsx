@@ -9,14 +9,23 @@ import {
 } from 'react-native';
 import React, {useLayoutEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import useAuthStore from '../../useAuthStore';
 
 export default function ProfileScreen({navigation}) {
+  const user = useAuthStore(state => state.user);
+  const clearUser = useAuthStore(state => state.clearUser);
+
   useLayoutEffect(() => {
     // Đặt StatusBar trong suốt cho ProfileScreen
     StatusBar.setBarStyle('light-content');
     StatusBar.setBackgroundColor('transparent'); // Màu nền trong suốt
     StatusBar.setTranslucent(true); // Cho phép nội dung phía dưới StatusBar hiển thị
   }, []);
+
+  const handleLogout = async () => {
+    await clearUser(); // Gọi clearUser để xóa thông tin người dùng
+    navigation.navigate('Login'); // Điều hướng đến màn hình đăng nhập sau khi đăng xuất
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Phần tiêu đề với ảnh và thông tin */}
@@ -31,7 +40,9 @@ export default function ProfileScreen({navigation}) {
 
         {/* Thông tin tên và trạng thái */}
         <View style={styles.infoContainer}>
-          <Text style={styles.nameText}>Thanh Thảo</Text>
+          <Text style={styles.nameText}>
+            {user?.data?.HoTen || 'Tên người dùng'}
+          </Text>
           <View style={styles.followContainer}>
             <Text style={styles.followText}>0 Người theo dõi</Text>
             <Text style={styles.followText}>0 Đang theo dõi</Text>
@@ -135,7 +146,7 @@ export default function ProfileScreen({navigation}) {
         </View>
         <TouchableOpacity
           style={styles.vButtonsContainer}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={handleLogout}>
           <Icon
             name="log-out-outline"
             size={30}

@@ -7,12 +7,42 @@ import {
   StyleSheet,
   StatusBar,
   Image,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import useAuthStore from '../../useAuthStore';
+import axios from 'axios';
 
 export default function Login({navigation}) {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const setUser = useAuthStore(state => state.setUser);
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        'http://192.168.1.7:5000/api/khachhang/dangnhap',
+        {
+          username,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        setUser(response.data); // Save user data to Zustand
+        navigation.navigate('TabLayout'); // Navigate to TabLayout
+      } else {
+        Alert.alert('Login Failed', 'Invalid username or password.');
+      }
+    } catch (error) {
+      Alert.alert('Login Failed', 'Invalid username or password.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -21,32 +51,25 @@ export default function Login({navigation}) {
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-
-      {/* Header with Login text */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="chevron-back-outline" size={20} color="#334d4d" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Log in</Text>
       </View>
-
-      {/* Form Section - Centered */}
       <View style={styles.formContainer}>
         <View style={styles.form}>
-          {/* Email input */}
           <Text style={styles.label}>
-            Email address or Phone number<Text style={styles.label1}> *</Text>
+            Email address or Username<Text style={styles.label1}> *</Text>
           </Text>
           <View style={styles.inputWrapper}>
             <TextInput
               style={styles.textInput}
-              placeholder="Enter your email or phone number"
-              value={email}
-              onChangeText={setEmail}
+              placeholder="Enter your email or username"
+              value={username}
+              onChangeText={setUsername}
             />
           </View>
-
-          {/* Password input */}
           <Text style={styles.label}>
             Password<Text style={styles.label1}> *</Text>
           </Text>
@@ -60,22 +83,12 @@ export default function Login({navigation}) {
             />
             <Icon name="eye" size={20} color="#aaa" style={styles.eyeIcon} />
           </View>
-
-          {/* Forgot Password */}
           <TouchableOpacity style={{alignSelf: 'flex-end'}}>
             <Text style={styles.forgotPassword}>Forgot password?</Text>
           </TouchableOpacity>
-
-          {/* Login Button */}
-          <TouchableOpacity style={styles.loginButton}>
-            <Text
-              style={styles.loginButtonText}
-              onPress={() => navigation.navigate('TabLayout')}>
-              Log In
-            </Text>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>Log In</Text>
           </TouchableOpacity>
-
-          {/* Or log in with */}
           <View style={styles.socialLoginContainer}>
             <Text>or log in with</Text>
             <View style={styles.socialIcons}>
@@ -90,8 +103,6 @@ export default function Login({navigation}) {
               />
             </View>
           </View>
-
-          {/* Sign up Section */}
           <TouchableOpacity>
             <Text style={styles.signUpText}>
               Don't have an account?{' '}

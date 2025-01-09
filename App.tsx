@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IntroLayout from './View/Intro/IntroLayout';
@@ -10,16 +10,32 @@ import Message from './View/Index/component/Message';
 import ProductDetail from './View/Index/component/ProductDetail';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import useAuthStore from './useAuthStore';
 
-// Khởi tạo stack navigator
 const Stack = createStackNavigator();
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true); // Thêm state để kiểm tra xem dữ liệu người dùng đã được tải chưa
+  const user = useAuthStore(state => state.user);
+  const loadUser = useAuthStore(state => state.loadUser);
+
+  useEffect(() => {
+    const loadData = async () => {
+      await loadUser(); // Tải người dùng từ AsyncStorage khi ứng dụng khởi động
+      setIsLoading(false); // Sau khi tải xong, set trạng thái loading là false
+    };
+    loadData();
+  }, [loadUser]);
+
+  if (isLoading) {
+    return null; // Hoặc có thể trả về một màn hình loading nếu muốn
+  }
+
   return (
     // Navigation container chứa tất cả các màn hình của bạn
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home" // Đặt màn hình mặc định khi ứng dụng khởi động
+        initialRouteName={user ? 'TabLayout' : 'Home'} // Chuyển đến màn hình chính nếu đã đăng nhập
       >
         {/* Định nghĩa các màn hình trong ứng dụng */}
         <Stack.Screen
