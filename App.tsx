@@ -8,6 +8,7 @@ import TabLayout from './View/Index/TabLayout';
 import Fillter from './View/Index/component/Fillter';
 import Message from './View/Index/component/Message';
 import ProductDetail from './View/Index/component/ProductDetail';
+import CartScreen from './View/Index/CartScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import useAuthStore from './useAuthStore';
@@ -76,6 +77,11 @@ function App() {
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CartScreen"
+          component={CartScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

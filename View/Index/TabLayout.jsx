@@ -3,7 +3,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IndexScreen from './IndexScreen';
 import MarketplaceScreen from './MarketplaceScreen';
-import ChatScreen from './ChatScreen';
 import OrderScreen from './OrderScreen';
 import ProfileScreen from './ProfileScreen';
 
@@ -36,21 +35,11 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="Chat"
-        component={ChatScreen}
-        options={{
-          tabBarLabel: 'Post Items',
-          tabBarIcon: ({color}) => (
-            <Icon name="inbox" size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Order"
         component={OrderScreen}
         options={{
-          tabBarLabel: 'Order',
+          tabBarLabel: 'Order Items',
           tabBarIcon: ({color}) => (
-            <Icon name="shopping-cart" size={24} color={color} />
+            <Icon name="inbox" size={24} color={color} />
           ),
         }}
       />

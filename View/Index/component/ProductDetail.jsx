@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,6 +15,8 @@ import ImagesN from './ImagesN';
 import DeliInfo from './DeliInfo';
 import FooterDetail from './FooterDetail';
 import Policy from './Policy';
+import useAuthStore from '../../../useAuthStore';
+import CartScreen from '../CartScreen';
 
 export default function ProductDetail({route, navigation}) {
   const {MaSP} = route.params;
@@ -21,6 +24,7 @@ export default function ProductDetail({route, navigation}) {
   const [countdownTime, setCountdownTime] = useState('');
   const [isDesVisible, setDesVisible] = useState(false);
   const [isPolicyVisible, setPolicyVisible] = useState(false);
+  const user = useAuthStore(state => state.user);
   const formattedPrice = new Intl.NumberFormat('vi-VN').format(
     productDetail?.GiaBan,
   );
@@ -68,6 +72,7 @@ export default function ProductDetail({route, navigation}) {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="chevron-back-outline" size={30} color="#334d4d" />
@@ -76,7 +81,8 @@ export default function ProductDetail({route, navigation}) {
           <TouchableOpacity>
             <Icon name="share-outline" size={30} color="#334d4d" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CartScreen', {user})}>
             <Icon name="cart-outline" size={30} color="#334d4d" />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -169,7 +175,11 @@ export default function ProductDetail({route, navigation}) {
 
         <View style={styles.fView}></View>
       </ScrollView>
-      <FooterDetail />
+      <FooterDetail
+        productDetail={productDetail}
+        user={user}
+        navigation={navigation}
+      />
     </SafeAreaView>
   );
 }
@@ -184,9 +194,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 25,
     paddingHorizontal: 10,
     zIndex: 10,
+    marginTop: 35,
   },
   iconGroup: {
     flexDirection: 'row',
