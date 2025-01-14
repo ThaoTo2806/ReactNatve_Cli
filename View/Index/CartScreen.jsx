@@ -10,24 +10,93 @@ import {
   Image,
   StatusBar,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import CheckBox from 'react-native-check-box';
 import FooterCart from './component/FooterCart';
-import FooterDetail from './component/FooterDetail';
 
 export default function CartScreen({route, navigation}) {
   const {user} = route.params;
   const [cart, setCart] = useState([]);
   const [total, SetTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const userRef = useRef(user);
+
+  const fetchCartData = async () => {
+    if (!userRef.current || !userRef.current.accessToken) {
+      Alert.alert('Lỗi', 'Không có thông tin người dùng');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get('http://192.168.1.7:5000/api/giohang', {
+        headers: {
+          Authorization: `Bearer ${userRef.current.accessToken}`,
+        },
+      });
+
+      if (response.data.success) {
+        setCart(response.data.cart);
+        SetTotal(response.data.totalAmount);
+      } else {
+        Alert.alert('Thông báo', 'Không thể lấy dữ liệu giỏ hàng');
+      }
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể kết nối với máy chủ');
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCartData = async () => {
+    userRef.current = user; // Cập nhật giá trị userRef
+    if (userRef.current && userRef.current.accessToken) {
+      fetchCartData();
+    } else {
+      Alert.alert('Lỗi', 'Không có thông tin người dùng');
+      setLoading(false);
+    }
+  }, [user]);
+
+  const handleIncreaseQuantity = async index => {
+    const updatedCart = [...cart];
+    updatedCart[index].SoLuong += 1;
+
+    try {
+      const response = await axios.put(
+        `http://192.168.1.7:5000/api/giohang/${updatedCart[index].MaSP}`,
+        {SoLuong: updatedCart[index].SoLuong},
+        {
+          headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+
+      if (response.data.success) {
+        setCart(updatedCart);
+        fetchCartData();
+      } else {
+        Alert.alert('Thông báo', response.data.message || 'Cập nhật thất bại');
+      }
+    } catch (error) {
+      console.error('Lỗi khi cập nhật số lượng sản phẩm: ', error);
+      Alert.alert('Lỗi', 'Không thể kết nối với máy chủ');
+    }
+  };
+
+  const handleDecreaseQuantity = async index => {
+    const updatedCart = [...cart];
+    if (updatedCart[index].SoLuong > 0) {
+      updatedCart[index].SoLuong -= 1;
+
       try {
-        const response = await axios.get(
-          'http://192.168.1.7:5000/api/giohang',
+        const response = await axios.put(
+          `http://192.168.1.7:5000/api/giohang/${updatedCart[index].MaSP}`,
+          {SoLuong: updatedCart[index].SoLuong},
           {
             headers: {
               Authorization: `Bearer ${user?.accessToken}`,
@@ -36,33 +105,18 @@ export default function CartScreen({route, navigation}) {
         );
 
         if (response.data.success) {
-          setCart(response.data.cart);
-          SetTotal(response.data.totalAmount);
+          setCart(updatedCart);
+          fetchCartData();
         } else {
-          Alert.alert('Thông báo', 'Không thể lấy dữ liệu giỏ hàng');
+          Alert.alert(
+            'Thông báo',
+            response.data.message || 'Cập nhật thất bại',
+          );
         }
       } catch (error) {
+        console.error('Lỗi khi cập nhật số lượng sản phẩm: ', error);
         Alert.alert('Lỗi', 'Không thể kết nối với máy chủ');
-        console.error(error);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    fetchCartData();
-  }, [user?.accessToken]);
-
-  const handleIncreaseQuantity = index => {
-    const updatedCart = [...cart];
-    updatedCart[index].SoLuong += 1;
-    setCart(updatedCart);
-  };
-
-  const handleDecreaseQuantity = index => {
-    const updatedCart = [...cart];
-    if (updatedCart[index].SoLuong > 1) {
-      updatedCart[index].SoLuong -= 1;
-      setCart(updatedCart);
     }
   };
 
@@ -143,7 +197,12 @@ export default function CartScreen({route, navigation}) {
           />
         )}
       </View>
-      <FooterCart totalAmount={total} />
+      <FooterCart
+        totalAmount={total}
+        cart={cart}
+        user={user}
+        navigation={navigation}
+      />
     </SafeAreaView>
   );
 }

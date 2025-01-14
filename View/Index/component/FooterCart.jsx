@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function FooterCart({totalAmount}) {
+export default function FooterCart({totalAmount, cart, user, navigation}) {
   return (
     <View style={styles.footerContainer}>
       {/* Delivery Fee */}
@@ -33,7 +33,11 @@ export default function FooterCart({totalAmount}) {
       </View>
 
       {/* Proceed to Checkout Button */}
-      <TouchableOpacity style={styles.checkoutButton}>
+      <TouchableOpacity
+        style={styles.checkoutButton}
+        onPress={() => {
+          navigation.navigate('CheckOutScreen', {cart, user});
+        }}>
         <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
       </TouchableOpacity>
     </View>

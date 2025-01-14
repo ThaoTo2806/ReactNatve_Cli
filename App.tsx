@@ -9,6 +9,7 @@ import Fillter from './View/Index/component/Fillter';
 import Message from './View/Index/component/Message';
 import ProductDetail from './View/Index/component/ProductDetail';
 import CartScreen from './View/Index/CartScreen';
+import CheckOutScreen from './View/Index/CheckOutScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import useAuthStore from './useAuthStore';
@@ -16,20 +17,20 @@ import useAuthStore from './useAuthStore';
 const Stack = createStackNavigator();
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true); // Thêm state để kiểm tra xem dữ liệu người dùng đã được tải chưa
+  const [isLoading, setIsLoading] = useState(true);
   const user = useAuthStore(state => state.user);
   const loadUser = useAuthStore(state => state.loadUser);
 
   useEffect(() => {
     const loadData = async () => {
-      await loadUser(); // Tải người dùng từ AsyncStorage khi ứng dụng khởi động
-      setIsLoading(false); // Sau khi tải xong, set trạng thái loading là false
+      await loadUser();
+      setIsLoading(false);
     };
     loadData();
   }, [loadUser]);
 
   if (isLoading) {
-    return null; // Hoặc có thể trả về một màn hình loading nếu muốn
+    return null;
   }
 
   return (
@@ -82,6 +83,11 @@ function App() {
         <Stack.Screen
           name="CartScreen"
           component={CartScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CheckOutScreen"
+          component={CheckOutScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
