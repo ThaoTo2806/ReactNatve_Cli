@@ -5,14 +5,30 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import RadioButtonGroup from 'react-native-radio-buttons-group';
+import FooterOrder from './FooterOrder';
 
 export default function CheckOutScreen({route, navigation}) {
-  const {cart, user} = route.params;
+  const {totalAmount, cart, user} = route.params;
+  const [selectedOption, setSelectedOption] = useState('');
 
+  const radioButtonsData = [
+    {
+      id: '1',
+      label: 'Cash on Delivery (COD)',
+      value: 'cod',
+    },
+    {
+      id: '2',
+      label: 'Credit Card Payment',
+      value: 'credit_card',
+    },
+  ];
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Thay đổi StatusBar */}
@@ -31,22 +47,29 @@ export default function CheckOutScreen({route, navigation}) {
         {/* Icon bên phải */}
         <View style={styles.iconRight}></View>
       </View>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {/* Hiển thị thông tin người dùng */}
         <View style={styles.userInfoContainer}>
           <View style={styles.userInfoRow}>
             <Icon name="earth-outline" size={25} color="#009999" />
-            <Text style={styles.userInfo1}>
-              Người dùng: {user?.data?.HoTen}
-            </Text>
+            <Text style={styles.userInfo1}>Địa chỉ giao hàng</Text>
           </View>
-          <Text style={styles.userInfo}>Email: {user?.data?.Email}</Text>
-          <Text style={styles.userInfo}>Địa chỉ: {user?.data?.DiaChi}</Text>
+          <View style={styles.userInfoRow1}>
+            <View style={styles.userChange1}>
+              <Text style={styles.userInfo}>
+                Người dùng: {user?.data?.HoTen}
+              </Text>
+              <Text style={styles.userInfo}>Email: {user?.data?.Email}</Text>
+              <Text style={styles.userInfo}>Địa chỉ: {user?.data?.DiaChi}</Text>
+            </View>
+            <TouchableOpacity style={styles.userChange}>
+              <Text style={styles.productText2}>Change</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Hiển thị thông tin đơn hàng */}
         <View style={styles.orderInfoContainer}>
-          <Text style={styles.orderInfoTitle}>Thông tin đơn hàng</Text>
           {cart.length > 0 ? (
             cart.map((item, index) => (
               <View key={index} style={styles.productRow}>
@@ -73,7 +96,26 @@ export default function CheckOutScreen({route, navigation}) {
             <Text>Giỏ hàng trống</Text>
           )}
         </View>
-      </View>
+        <View>
+          <View style={styles.userInfoRow}>
+            <Icon name="card-outline" size={25} color="#009999" />
+            <Text style={styles.userInfo1}>Phương thức thanh toán</Text>
+          </View>
+          <View style={styles.radioButtonG}>
+            <RadioButtonGroup
+              radioButtons={radioButtonsData}
+              onPress={radioButtonsArray => {
+                const selected = radioButtonsArray.find(
+                  rb => rb.selected,
+                )?.value;
+                setSelectedOption(selected);
+              }}
+            />
+          </View>
+        </View>
+        <View style={styles.fView}></View>
+      </ScrollView>
+      <FooterOrder totalAmount={totalAmount} user={user} />
     </SafeAreaView>
   );
 }
@@ -119,18 +161,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 5,
   },
+  userInfoRow1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Đẩy hai phần tử về hai đầu
+    alignItems: 'center',
+    marginBottom: 5,
+  },
   userInfo: {
     fontSize: 16,
     marginLeft: 10,
   },
+  userChange: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#009999',
+    padding: 10,
+    alignItems: 'flex-end',
+  },
+  userChange1: {
+    alignItems: 'flex-start',
+  },
   userInfo1: {
-    fontSize: 16,
-    marginLeft: -335,
+    fontSize: 18,
+    marginLeft: 10,
     fontWeight: 'bold',
   },
   orderInfoContainer: {
     marginTop: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     marginRight: 20,
   },
   orderInfoTitle: {
@@ -168,5 +226,13 @@ const styles = StyleSheet.create({
   productText2: {
     fontSize: 16,
     color: '#009999',
+  },
+  radioButtonG: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  fView: {
+    height: '10%',
+    marginBottom: 30,
   },
 });
